@@ -6,11 +6,30 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:04:26 by lde-mich          #+#    #+#             */
-/*   Updated: 2023/06/30 16:13:36 by lde-mich         ###   ########.fr       */
+/*   Updated: 2023/07/06 12:43:26 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	ft_check_size(t_game *game, char *path)
+{
+	char	*l;
+	int		fd;
+
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		exit(write(1, "Error\nMap not found\n", 20));
+	l = get_next_line(fd);
+	game->x = ft_strlen(l) - 1;
+	game->y = 0;
+	while (l)
+	{
+		l = get_next_line(fd);
+		game->y++;
+	}
+	close(fd);
+}
 
 char	**ft_readmap(t_game *game, char *path)
 {
@@ -30,7 +49,7 @@ char	**ft_readmap(t_game *game, char *path)
 	{
 		if (l[ft_strlen(l) - 1] == '\n')
 			l[ft_strlen(l) - 1] = 0;
-		mat[j] = l;
+		mat[j] = l;                                                                                                                                       
 		l = get_next_line(fd);
 		j++;
 	}
@@ -39,13 +58,34 @@ char	**ft_readmap(t_game *game, char *path)
 	return (mat);
 }
 
+void	ft_inimap(t_game *game)
+{
+	int	y;
+	int	count;
+
+	y = 0;
+	count = 0;
+	while (game->readmap[y] && count <= 6)
+	{
+		if (game->readmap[y] && game->readmap[y][0] != 0)
+		{
+			count++;
+			y++;
+		}
+		else
+			y++;
+	}
+	game->inimap = y - 1;
+}
+
 void	ft_map(t_game *game)
 {
 	int	y;
 	int	j;
 
+	ft_inimap(game);
 	game->map = (char **)malloc((game->y + 1) * sizeof(char *));
-	y = 8;
+	y = game->inimap;
 	j = 0;
 	while (game->readmap[y])
 	{

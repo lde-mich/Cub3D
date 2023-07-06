@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 11:35:23 by dcastagn          #+#    #+#             */
-/*   Updated: 2023/06/30 16:04:13 by lde-mich         ###   ########.fr       */
+/*   Updated: 2023/07/06 14:40:17 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,12 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		null_error("Inval1d input\n");
 	ft_check_input(argv[1]);
-
+	ft_check_size(&game, argv[1]);
 	game.readmap = ft_readmap(&game, argv[1]);
+	ft_check_rgb(&game);
+	ft_check_texture(&game);
 	ft_map(&game);
 	ft_print_mat(game.readmap);
-	ft_print_mat(game.map);
 
 	game.mlx = mlx_init();
 	game.mlx_win = mlx_new_window(game.mlx, 860, 520, "cub3d");
