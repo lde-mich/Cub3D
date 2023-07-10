@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 11:39:41 by dcastagn          #+#    #+#             */
-/*   Updated: 2023/07/06 14:41:45 by lde-mich         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:55:21 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef struct s_game
 	int		inidata;
 	int		x;
 	int		y;
+	int		f[3];
+	int		c[3];
 
 }		t_game;
 
@@ -48,6 +50,8 @@ void	ft_map(t_game *game);
 void	ft_inimap(t_game *game);
 void	ft_inidata(t_game *game);
 void	ft_check_size(t_game *game, char *path);
-void	ft_check_rgb(t_game *game);
+void	ft_check_fc(t_game *game);
+void	ft_check_rgb(int y, t_game *game);
+void	ft_free_mat(char **mat);
 
 #endif

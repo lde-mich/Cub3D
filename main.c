@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 11:35:23 by dcastagn          #+#    #+#             */
-/*   Updated: 2023/07/06 14:40:17 by lde-mich         ###   ########.fr       */
+/*   Updated: 2023/07/06 15:57:51 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int argc, char **argv)
 	ft_check_input(argv[1]);
 	ft_check_size(&game, argv[1]);
 	game.readmap = ft_readmap(&game, argv[1]);
-	ft_check_rgb(&game);
+	ft_check_fc(&game);
 	ft_check_texture(&game);
 	ft_map(&game);
 	ft_print_mat(game.readmap);
