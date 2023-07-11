@@ -6,13 +6,13 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:04:26 by lde-mich          #+#    #+#             */
-/*   Updated: 2023/07/06 12:43:26 by lde-mich         ###   ########.fr       */
+/*   Updated: 2023/07/11 16:45:50 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
-void	ft_check_size(t_game *game, char *path)
+void	ft_check_size(t_parser *parser, char *path)
 {
 	char	*l;
 	int		fd;
@@ -21,29 +21,29 @@ void	ft_check_size(t_game *game, char *path)
 	if (fd < 0)
 		exit(write(1, "Error\nMap not found\n", 20));
 	l = get_next_line(fd);
-	game->x = ft_strlen(l) - 1;
-	game->y = 0;
+	parser->x = ft_strlen(l) - 1;
+	parser->y = 0;
 	while (l)
 	{
 		l = get_next_line(fd);
-		game->y++;
+		parser->y++;
 	}
 	close(fd);
 }
 
-char	**ft_readmap(t_game *game, char *path)
+char	**ft_readmap(t_parser *parser, char *path)
 {
 	char	**mat;
 	char	*l;
 	int		fd;
 	int		j;
 
-	mat = (char **)malloc((game->y + 1) * sizeof(char *));
+	mat = (char **)malloc((parser->y + 1) * sizeof(char *));
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		exit(write(1, "Error\nMap not found\n", 20));
 	l = get_next_line(fd);
-	game->x = ft_strlen(l) - 1;
+	parser->x = ft_strlen(l) - 1;
 	j = 0;
 	while (l)
 	{
@@ -53,21 +53,21 @@ char	**ft_readmap(t_game *game, char *path)
 		l = get_next_line(fd);
 		j++;
 	}
-	mat[game->y] = 0;
+	mat[parser->y] = 0;
 	close(fd);
 	return (mat);
 }
 
-void	ft_inimap(t_game *game)
+void	ft_inimap(t_parser *parser)
 {
 	int	y;
 	int	count;
 
 	y = 0;
 	count = 0;
-	while (game->readmap[y] && count <= 6)
+	while (parser->readmap[y] && count <= 6)
 	{
-		if (game->readmap[y] && game->readmap[y][0] != 0)
+		if (parser->readmap[y] && parser->readmap[y][0] != 0)
 		{
 			count++;
 			y++;
@@ -75,21 +75,21 @@ void	ft_inimap(t_game *game)
 		else
 			y++;
 	}
-	game->inimap = y - 1;
+	parser->inimap = y - 1;
 }
 
-void	ft_map(t_game *game)
+void	ft_map(t_parser *parser)
 {
 	int	y;
 	int	j;
 
-	ft_inimap(game);
-	game->map = (char **)malloc((game->y + 1) * sizeof(char *));
-	y = game->inimap;
+	ft_inimap(parser);
+	parser->map = (char **)malloc((parser->y + 1) * sizeof(char *));
+	y = parser->inimap;
 	j = 0;
-	while (game->readmap[y])
+	while (parser->readmap[y])
 	{
-		game->map[j] = ft_strdup(game->readmap[y]);
+		parser->map[j] = ft_strdup(parser->readmap[y]);
 		j++;
 		y++;
 	}

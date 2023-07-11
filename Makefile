@@ -6,7 +6,7 @@
 #    By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/06 15:20:41 by lde-mich          #+#    #+#              #
-#    Updated: 2023/07/04 09:19:40 by lde-mich         ###   ########.fr        #
+#    Updated: 2023/07/11 16:45:14 by lde-mich         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@
 
 NAME	= cub3D
 
-SRC		= $(wildcard gnl/*.c) $(wildcard *.c) $(wildcard errors/*.c)
+SRC		= $(wildcard gnl/*.c) $(wildcard *.c) $(wildcard parser/*.c)
 
 OBJ		= $(SRC:%.c=%.o)
 

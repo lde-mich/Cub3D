@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 11:35:23 by dcastagn          #+#    #+#             */
-/*   Updated: 2023/07/06 15:57:51 by lde-mich         ###   ########.fr       */
+/*   Updated: 2023/07/11 16:31:02 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,17 @@ int	ft_destroy_window(t_game *game)
 int	main(int argc, char **argv)
 {
 	t_game		game;
+	t_parser	parser;
 
 	if (argc != 2)
 		null_error("Inval1d input\n");
 	ft_check_input(argv[1]);
-	ft_check_size(&game, argv[1]);
-	game.readmap = ft_readmap(&game, argv[1]);
-	ft_check_fc(&game);
-	ft_check_texture(&game);
-	ft_map(&game);
-	ft_print_mat(game.readmap);
+	ft_check_size(&parser, argv[1]);
+	parser.readmap = ft_readmap(&parser, argv[1]);
+	ft_check_fc(&parser);
+	ft_check_texture(&parser);
+	ft_map(&parser);
+	ft_print_mat(parser.readmap);
 
 	game.mlx = mlx_init();
 	game.mlx_win = mlx_new_window(game.mlx, 860, 520, "cub3d");
