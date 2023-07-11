@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 11:39:41 by dcastagn          #+#    #+#             */
-/*   Updated: 2023/07/11 16:38:23 by lde-mich         ###   ########.fr       */
+/*   Updated: 2023/07/11 18:04:23 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,5 @@ void	ft_check_size(t_parser *parser, char *path);
 void	ft_check_fc(t_parser *parser);
 void	ft_check_map(t_parser *parser);
 void	ft_check_rgb(int y, t_parser *parser);
-void	null_error(char *message);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:59:32 by lde-mich          #+#    #+#             */
-/*   Updated: 2023/07/11 16:46:26 by lde-mich         ###   ########.fr       */
+/*   Updated: 2023/07/11 18:24:15 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,19 @@ void	ft_check_texture(t_parser *parser)
 	}
 }
 
-// void	ft_check_map(t_parser *parser)
-// {
-// 	int	x;
-// 	int	y;
+void	ft_check_map(t_parser *parser)
+{
+	int	x;
+	int	y;
 
-	
-// }
+	y = 0;
+	while (parser->map[y])
+	{
+		x = 0;
+		while (parser->map[y][x])
+		{
+			x++;
+		}
+		y++;	
+	}
+}
