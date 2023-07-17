@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:59:32 by lde-mich          #+#    #+#             */
-/*   Updated: 2023/07/11 18:24:15 by lde-mich         ###   ########.fr       */
+/*   Updated: 2023/07/17 11:41:38 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	ft_check_rgb(int y, t_parser *parser)
 		else
 			parser->c[i] = ft_atoi(temp1[i]);
 		if (ft_atoi(temp1[i]) < 0 || ft_atoi(temp1[i]) > 255)
-			exit(write(2, "Error\nRgb not supported\n", 24) * 0 + 1);
+			ft_free_err(parser, "Error\nRgb not supported\n");
 		i++;
 	}
 	ft_free_mat(temp);
@@ -74,7 +74,7 @@ void	ft_check_fc(t_parser *parser)
 		if (parser->readmap[y][x] == 70 || parser->readmap[y][x] == 67)
 			ft_check_rgb(y, parser);
 		else
-			exit(write(2, "Error\nRgb not supported\n", 24) * 0 + 1);
+			ft_free_err(parser, "Error\nRgb not supported\n");
 		y++;
 		count++;
 	}
@@ -98,26 +98,9 @@ void	ft_check_texture(t_parser *parser)
 		temp = ft_substr(parser->readmap[y], x, 2);
 		if (ft_strncmp(temp, "NO", 2) && ft_strncmp(temp, "SO", 2)
 			&& ft_strncmp(temp, "WE", 2) && ft_strncmp(temp, "EA", 2))
-			exit(write(2, "Error\nTexture not supported\n", 28) * 0 + 1);
+			ft_free_err(parser, "Error\nTexture not supported\n");
 		count++;
 		free(temp);
 		y++;
-	}
-}
-
-void	ft_check_map(t_parser *parser)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (parser->map[y])
-	{
-		x = 0;
-		while (parser->map[y][x])
-		{
-			x++;
-		}
-		y++;	
 	}
 }

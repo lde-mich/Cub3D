@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:04:26 by lde-mich          #+#    #+#             */
-/*   Updated: 2023/07/11 16:45:50 by lde-mich         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:08:13 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ void	ft_check_size(t_parser *parser, char *path)
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		exit(write(1, "Error\nMap not found\n", 20));
+		exit(write(2, "Error\nMap not found\n", 20));
 	l = get_next_line(fd);
+	if (!l)
+		ft_free_err(parser, "Error\nempty map\n");
 	parser->x = ft_strlen(l) - 1;
 	parser->y = 0;
 	while (l)
@@ -43,6 +45,8 @@ char	**ft_readmap(t_parser *parser, char *path)
 	if (fd < 0)
 		exit(write(1, "Error\nMap not found\n", 20));
 	l = get_next_line(fd);
+	if (!l)
+		ft_free_err(parser, "Error\nempty map\n");
 	parser->x = ft_strlen(l) - 1;
 	j = 0;
 	while (l)
@@ -93,5 +97,5 @@ void	ft_map(t_parser *parser)
 		j++;
 		y++;
 	}
-	
+	parser->map[j] = 0;
 }
