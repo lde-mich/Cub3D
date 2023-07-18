@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 11:39:41 by dcastagn          #+#    #+#             */
-/*   Updated: 2023/07/17 12:05:41 by lde-mich         ###   ########.fr       */
+/*   Updated: 2023/07/18 10:06:13 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,82 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <stdint.h>
 # include "minilibx-linux/mlx.h"
 # include "libft/libft.h"
 # include "gnl/get_next_line.h"
 # include <fcntl.h>
 # include <math.h>
 # include <time.h>
+# include <sys/time.h>
 
-// GAME
+// risoluzione
+#define SCREEN_W 1920
+#define SCREEN_H 1080
 
-typedef struct s_game
+// Field Of View
+#define FOV 0.66
+
+// Pi
+#define PI 3.14159
+
+// passo di movimento e rotazione
+#define MOVSPEED 0.1
+#define ROTSPEED 0.05
+
+# define RGB_RED 0x00FFA0A0
+# define RGB_GREEN 0x0000FF00
+# define RGB_BLUE 0x000000FF
+# define RGB_YELLOW 0x00FFFF00
+# define RGB_WHITE 0x00FFFFFF
+# define RGB_DARK_GREY 0x00282828
+
+// ---------- STRUCTS
+
+typedef struct s_vectors
 {
-	void	*mlx;
-	void	*mlx_win;
+	double	x;
+	double	y;
+}	t_vectors;
 
-}		t_game;
+typedef struct s_data 
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}	t_data;
+
+typedef struct s_player
+{
+	t_vectors	pos;
+	t_vectors	dir;
+	t_vectors	mov_dir;
+	t_vectors	plane;
+	t_vectors	mov_speed;
+	double		rot_speed;
+	double		rot_dir;
+}	t_player;
+
+typedef struct s_ray
+{
+	t_vectors	draw_start;
+	t_vectors	draw_end;
+	t_vectors	side_dist;
+	t_vectors	delta_dist;
+	t_vectors	ray_dir;
+	double		perp_wall_dist;
+	double		camera_x;
+	int			side;
+	int			hit;
+	int			line_height;
+	int			step_x;
+	int			step_y;
+	int			map_x;
+	int			map_y;
+	int			color;
+}	t_ray;
 
 //PARSER
 
@@ -49,7 +110,29 @@ typedef struct parser
 
 }		t_parser;
 
-//TEMP
+//GAME
+
+typedef struct s_game
+{
+	// char			**themap;
+	// int				y;
+	// int				x;
+	// char			**readmap;
+	// int				inimap;
+	void			*mlx;
+	void			*mlx_win;
+	double			frame_time;
+	int				fps;
+	u_int64_t		time;
+	u_int64_t		old_time;
+	t_player		player;
+	t_ray			ray;
+	t_data			data;
+	t_parser		parser;
+}	t_game;
+
+
+//TEMP PARSER
 
 char	**ft_readmap(t_parser *parser, char *path);
 void	ft_map(t_parser *parser);
@@ -66,5 +149,20 @@ void	ft_check_map(t_parser *parser);
 void	ft_check_lmap(t_parser *parser);
 void	ft_check_symbol_map(t_parser *parser);
 void	ft_check_rgb(int y, t_parser *parser);
+
+//TEMP RAYCASTING
+
+void	ft_sleep(u_int64_t time);
+int	start_game(t_game *game);
+void	init_game(t_game *game);
+u_int64_t	get_time(void);
+int     player_initialization(t_game *game);
+void	update_inputs(t_game *game);
+void	*null_error(char *message);
+int		key_hook_press(int key, t_game *game);
+int		key_hook_release(int key, t_game *game);
+void	raycaster(t_game *game);
+int		draw_frames(t_game *game);
+void	draw_line_on(t_data *img, t_vectors begin, t_vectors end, int color);
 
 #endif
