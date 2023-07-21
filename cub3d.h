@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 11:39:41 by dcastagn          #+#    #+#             */
-/*   Updated: 2023/07/18 10:06:13 by lde-mich         ###   ########.fr       */
+/*   Updated: 2023/07/21 12:38:27 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@
 // risoluzione
 #define SCREEN_W 1920
 #define SCREEN_H 1080
+
+// texture
+#define TEXT_W 256
+#define TEXT_H 256
 
 // Field Of View
 #define FOV 0.66
@@ -52,6 +56,7 @@ typedef struct s_vectors
 {
 	double	x;
 	double	y;
+
 }	t_vectors;
 
 typedef struct s_data 
@@ -61,6 +66,7 @@ typedef struct s_data
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+
 }	t_data;
 
 typedef struct s_player
@@ -72,6 +78,7 @@ typedef struct s_player
 	t_vectors	mov_speed;
 	double		rot_speed;
 	double		rot_dir;
+
 }	t_player;
 
 typedef struct s_ray
@@ -91,7 +98,25 @@ typedef struct s_ray
 	int			map_x;
 	int			map_y;
 	int			color;
+
 }	t_ray;
+
+typedef struct s_texture
+{
+
+}	t_texture;
+
+typedef struct s_img
+{
+	void	*img;
+	void	*addr;
+	int		width;
+	int		height;
+	int		bpp;
+	int		ll;
+	int		endian;
+
+}	t_img;
 
 //PARSER
 
@@ -114,11 +139,6 @@ typedef struct parser
 
 typedef struct s_game
 {
-	// char			**themap;
-	// int				y;
-	// int				x;
-	// char			**readmap;
-	// int				inimap;
 	void			*mlx;
 	void			*mlx_win;
 	double			frame_time;
@@ -129,6 +149,11 @@ typedef struct s_game
 	t_ray			ray;
 	t_data			data;
 	t_parser		parser;
+	t_img			no_wall;
+	t_img			so_wall;
+	t_img			ea_wall;
+	t_img			we_wall;
+
 }	t_game;
 
 
@@ -142,13 +167,14 @@ void	ft_free_err(t_parser *parser, char *s);
 void	ft_inimap(t_parser *parser);
 void	ft_inidata(t_parser *parser);
 void	ft_size_map(t_parser *parser);
-void	ft_check_texture(t_parser *parser);
+void	ft_check_texture(t_parser *parser, t_game *game);
 void	ft_check_size(t_parser *parser, char *path);
 void	ft_check_fc(t_parser *parser);
 void	ft_check_map(t_parser *parser);
 void	ft_check_lmap(t_parser *parser);
 void	ft_check_symbol_map(t_parser *parser);
 void	ft_check_rgb(int y, t_parser *parser);
+void	ft_load_image(t_game *game, char **temp);
 
 //TEMP RAYCASTING
 

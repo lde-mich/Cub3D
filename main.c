@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 11:35:23 by dcastagn          #+#    #+#             */
-/*   Updated: 2023/07/18 10:28:11 by lde-mich         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:43:29 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	ft_destroy_window(t_game *game)
 
 int	main(int argc, char **argv)
 {
-	t_game		game;
-	t_parser	parser;
+	static t_game		game;
+	static t_parser		parser;
 
 	parser.map = NULL;
 	parser.readmap = NULL;
@@ -43,10 +43,11 @@ int	main(int argc, char **argv)
 	ft_map(&parser);
 	ft_size_map(&parser);
 	ft_check_fc(&parser);
-	ft_check_texture(&parser);
+	ft_check_texture(&parser, &game);
 	ft_check_lmap(&parser);
 	ft_check_map(&parser);
 	ft_check_symbol_map(&parser);
+
 	game.parser = parser;
 	start_game(&game);
 	init_game(&game);
