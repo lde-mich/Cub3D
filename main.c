@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 11:35:23 by dcastagn          #+#    #+#             */
-/*   Updated: 2023/07/21 15:43:29 by lde-mich         ###   ########.fr       */
+/*   Updated: 2023/07/25 14:23:49 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,16 @@ void	ft_check_input(char *s)
 int	ft_destroy_window(t_game *game)
 {
 	mlx_destroy_window(game->mlx, game->mlx_win);
-	exit(write(2, "Error: The evil forces reign on\n", 25));
+	ft_free_err(&game->parser, "Error: The evil forces reign on\n");
+	return (1);
 }
 
 int	main(int argc, char **argv)
 {
-	static t_game		game;
-	static t_parser		parser;
+	t_game		game;
+	t_parser	parser;
 
+	game.mlx = mlx_init();
 	parser.map = NULL;
 	parser.readmap = NULL;
 	if (argc != 2)
@@ -47,7 +49,6 @@ int	main(int argc, char **argv)
 	ft_check_lmap(&parser);
 	ft_check_map(&parser);
 	ft_check_symbol_map(&parser);
-
 	game.parser = parser;
 	start_game(&game);
 	init_game(&game);

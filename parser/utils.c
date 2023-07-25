@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:15:02 by lde-mich          #+#    #+#             */
-/*   Updated: 2023/07/17 16:13:12 by lde-mich         ###   ########.fr       */
+/*   Updated: 2023/07/25 11:44:03 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ void	ft_size_map(t_parser *parser)
 {
 	int	x;
 	int	y;
+	int	hx;
 
+	hx = 0;
 	y = 0;
 	while (parser->map[y])
 	{
@@ -65,9 +67,11 @@ void	ft_size_map(t_parser *parser)
 		while (parser->map[y][x])
 		{
 			x++;
+			if (hx < x)
+				hx = x;
 		}
 		y++;
 	}
 	parser->mheight = y;
-	parser->mwidth = x;
+	parser->mwidth = hx;
 }

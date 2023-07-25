@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:59:32 by lde-mich          #+#    #+#             */
-/*   Updated: 2023/07/21 15:49:26 by lde-mich         ###   ########.fr       */
+/*   Updated: 2023/07/25 15:28:21 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void	ft_check_rgb(int y, t_parser *parser)
 			ft_free_err(parser, "Error\nRgb not supported\n");
 		i++;
 	}
+	if (i != 3)
+		ft_free_err(parser, "Error\nRgb not supported\n");
 	ft_free_mat(temp);
 	ft_free_mat(temp1);
 }
@@ -89,7 +91,6 @@ void	ft_check_texture(t_parser *parser, t_game *game)
 	temp = NULL;
 	while (parser->readmap[y] && y < 4)
 	{
-		printf("|%d|\n", y);
 		temp = ft_split(parser->readmap[y], 32);
 		ft_load_image(game, temp);
 		ft_free_mat(temp);

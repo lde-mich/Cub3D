@@ -6,7 +6,7 @@
 /*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 11:39:41 by dcastagn          #+#    #+#             */
-/*   Updated: 2023/07/21 12:38:27 by lde-mich         ###   ########.fr       */
+/*   Updated: 2023/07/25 14:55:08 by lde-mich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,6 @@
 #define SCREEN_W 1920
 #define SCREEN_H 1080
 
-// texture
-#define TEXT_W 256
-#define TEXT_H 256
-
 // Field Of View
 #define FOV 0.66
 
@@ -43,12 +39,18 @@
 #define MOVSPEED 0.1
 #define ROTSPEED 0.05
 
+// Dimensioni della minimappa
+#define MINIMAP_SIZE 200
+#define MINIMAP_SCALE 15
+
 # define RGB_RED 0x00FFA0A0
 # define RGB_GREEN 0x0000FF00
 # define RGB_BLUE 0x000000FF
 # define RGB_YELLOW 0x00FFFF00
 # define RGB_WHITE 0x00FFFFFF
 # define RGB_DARK_GREY 0x00282828
+# define RGB_FLOOR 0x00228B22
+# define RGB_SKY 0x00E0FFFF
 
 // ---------- STRUCTS
 
@@ -56,7 +58,6 @@ typedef struct s_vectors
 {
 	double	x;
 	double	y;
-
 }	t_vectors;
 
 typedef struct s_data 
@@ -66,8 +67,33 @@ typedef struct s_data
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-
+	double	dx;
+	double	dy;
+	double	px;
+	double	py;
+	int		pixels;
 }	t_data;
+
+typedef struct s_mini 
+{
+	int		width;
+	int		height;
+	int		y;
+	int		x;
+	t_data	data;
+}	t_mini;
+
+typedef struct s_img
+{
+	void	*img;
+	void	*addr;
+	int		width;
+	int		height;
+	int		bpp;
+	int		ll;
+	int		endian;
+
+}	t_img;
 
 typedef struct s_player
 {
@@ -78,7 +104,6 @@ typedef struct s_player
 	t_vectors	mov_speed;
 	double		rot_speed;
 	double		rot_dir;
-
 }	t_player;
 
 typedef struct s_ray
@@ -98,25 +123,7 @@ typedef struct s_ray
 	int			map_x;
 	int			map_y;
 	int			color;
-
 }	t_ray;
-
-typedef struct s_texture
-{
-
-}	t_texture;
-
-typedef struct s_img
-{
-	void	*img;
-	void	*addr;
-	int		width;
-	int		height;
-	int		bpp;
-	int		ll;
-	int		endian;
-
-}	t_img;
 
 //PARSER
 
@@ -139,6 +146,7 @@ typedef struct parser
 
 typedef struct s_game
 {
+
 	void			*mlx;
 	void			*mlx_win;
 	double			frame_time;
@@ -153,7 +161,7 @@ typedef struct s_game
 	t_img			so_wall;
 	t_img			ea_wall;
 	t_img			we_wall;
-
+	t_mini			mini;
 }	t_game;
 
 
@@ -178,17 +186,21 @@ void	ft_load_image(t_game *game, char **temp);
 
 //TEMP RAYCASTING
 
-void	ft_sleep(u_int64_t time);
-int	start_game(t_game *game);
-void	init_game(t_game *game);
+void		ft_sleep(u_int64_t time);
+int			start_game(t_game *game);
+void	my_mlx_pixel_put(t_data *img, int x, int y, int color);
+void	draw_minimap(t_game	*game);
+void		init_game(t_game *game);
 u_int64_t	get_time(void);
-int     player_initialization(t_game *game);
-void	update_inputs(t_game *game);
-void	*null_error(char *message);
-int		key_hook_press(int key, t_game *game);
-int		key_hook_release(int key, t_game *game);
-void	raycaster(t_game *game);
-int		draw_frames(t_game *game);
-void	draw_line_on(t_data *img, t_vectors begin, t_vectors end, int color);
+int			player_initialization(t_game *game);
+void		update_inputs(t_game *game);
+void		*null_error(char *message);
+int			key_hook_press(int key, t_game *game);
+int			key_hook_release(int key, t_game *game);
+void		raycaster(t_game *game);
+int			draw_frames(t_game *game);
+void		draw_line_on(t_data *img, t_vectors begin, t_vectors end, int color);
+void	draw_rect_on(t_data *img, t_vectors begin, t_vectors end, int color);
+void	draw_minimap_back_and_player(t_game *game);
 
 #endif
