@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dcastagn <dcastagn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 14:59:32 by lde-mich          #+#    #+#             */
-/*   Updated: 2023/07/25 15:28:21 by lde-mich         ###   ########.fr       */
+/*   Updated: 2023/08/01 12:15:17 by dcastagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,10 @@ void	ft_check_texture(t_parser *parser, t_game *game)
 {
 	int		y;
 	char	**temp;
+	int		i;
 
 	y = 0;
+	i = -1;
 	temp = NULL;
 	while (parser->readmap[y] && y < 4)
 	{
@@ -96,7 +98,12 @@ void	ft_check_texture(t_parser *parser, t_game *game)
 		ft_free_mat(temp);
 		y++;
 	}
-	if (!game->no_wall.img || !game->so_wall.img || !game->ea_wall.img
-		|| !game->we_wall.img)
+	if (!game->walls[0].img || !game->walls[1].img || !game->walls[2].img
+		|| !game->walls[3].img)
 		ft_free_err(parser, "Error: image not found\n");
+	while (++i < 4)
+	game->walls[i].addr = mlx_get_data_addr(game->walls[i].img,
+		&game->walls[i].bpp,&game->walls[i].ll,
+		&game->walls[i].endian);
+
 }

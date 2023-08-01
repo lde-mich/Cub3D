@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lde-mich <lde-mich@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dcastagn <dcastagn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 11:39:41 by dcastagn          #+#    #+#             */
-/*   Updated: 2023/07/25 14:55:08 by lde-mich         ###   ########.fr       */
+/*   Updated: 2023/07/31 16:37:41 by dcastagn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 // risoluzione
 #define SCREEN_W 1920
 #define SCREEN_H 1080
+#define TEXTURES 1
 
 // Field Of View
 #define FOV 0.66
@@ -40,9 +41,8 @@
 #define ROTSPEED 0.05
 
 // Dimensioni della minimappa
-#define MINIMAP_SIZE 200
-#define MINIMAP_SCALE 15
 
+#define MINIMAP_SCALE (int)(SCREEN_W / 150)
 # define RGB_RED 0x00FFA0A0
 # define RGB_GREEN 0x0000FF00
 # define RGB_BLUE 0x000000FF
@@ -151,16 +151,19 @@ typedef struct s_game
 	void			*mlx_win;
 	double			frame_time;
 	int				fps;
+	int				x;
 	u_int64_t		time;
 	u_int64_t		old_time;
 	t_player		player;
 	t_ray			ray;
 	t_data			data;
 	t_parser		parser;
-	t_img			no_wall;
-	t_img			so_wall;
-	t_img			ea_wall;
-	t_img			we_wall;
+	t_img			walls[4];
+	int				mouse_x;
+	int				mouse_y;
+	int				screen_x;
+	int				screen_y;
+	t_data			screen;
 	t_mini			mini;
 }	t_game;
 
@@ -198,9 +201,10 @@ void		*null_error(char *message);
 int			key_hook_press(int key, t_game *game);
 int			key_hook_release(int key, t_game *game);
 void		raycaster(t_game *game);
+void		draw_texture(t_game *game, int x);
 int			draw_frames(t_game *game);
 void		draw_line_on(t_data *img, t_vectors begin, t_vectors end, int color);
-void	draw_rect_on(t_data *img, t_vectors begin, t_vectors end, int color);
-void	draw_minimap_back_and_player(t_game *game);
+void		draw_background(t_data *img, t_vectors begin, t_vectors end);
+int	ft_mouse(int x, int y, void *param);
 
 #endif
